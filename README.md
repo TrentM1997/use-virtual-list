@@ -3,7 +3,7 @@
 ## What: tiny react hook to batch render long lists, for smooth endless scroll
 
 ## Purpose 
-- Reduces DOM node consumtion, lowering memory usage and render work for the browser (only a slice is appended to the rendered list at any time)
+- Reduces DOM node consumption, lowering memory usage and render work for the browser (only a slice is appended to the rendered list at any time)
 - Great for learning virtualized rendering concepts(batching, preventing overlap of scheduling, cleanup)
 - Smoother UX(particularly on lower-end devices) by avoiding costly paint of entire large lists on every render
 
@@ -72,7 +72,7 @@ export default function EndlessScroll({ items }: { items: Item[] }) {
 
 ```
 
-## Basic Usage (no third party library)
+## Basic Usage (no third-party library)
 
 ### useVirtuoso is library-agnostic. It just returns the visible items rendered, a loadMore trigger, and a fullyLoaded flag. You can wire it to any scroll trigger.
 
@@ -102,7 +102,7 @@ export default function Demo() {
 
 ```
 
-#### Example C - IntersectionObserver (no scroll calculating needed)
+#### Example C - IntersectionObserver (scroll math not needed)
 
 ```
 import { useRef, useEffect } from "react";
@@ -115,18 +115,19 @@ export function DemoObserver() {
   const boundaryRef  = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if(fullyLoaded) return; // early return when data set is fully rendered
+
     const boundary = boundaryRef.current;
     const root = containerRef.current;
 
     if (!root || !boundary) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => entry.isIntersecting && loadMore(),
       { root, rootMargin: "120px" } // load more items a bit before the bottom
     );
     observer.observe(boundary);
     return () => observer.disconnect();
-  }, [loadMore]);
+  }, [loadMore, fullyLoaded]);
 
   return (
     <div ref={containerRef} style={{ height: 420, overflow: "auto" }}>
