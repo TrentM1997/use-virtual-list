@@ -38,6 +38,8 @@ schedules the next batch(won't overlap schedules)
 
 #### Code for endless scroller
 ```
+// React + TypeScript/TSX
+
 import { Virtuoso, type FooterProps } from "react-virtuoso";
 import { useVirtuoso } from "./hooks/useVirtuoso";
 
@@ -78,6 +80,9 @@ export default function EndlessScroll({ items }: { items: Item[] }) {
 
 #### Example B - Simple scroll trigger
 ```
+// React + TypeScript/TSX
+
+
 const items = Array.from({ length: 80 }, (_, i) => `Item ${i + 1}`);
 
 export default function Demo() {
@@ -105,6 +110,8 @@ export default function Demo() {
 #### Example C - IntersectionObserver (scroll math not needed)
 
 ```
+// React + TypeScript/TSX
+
 import { useRef, useEffect } from "react";
 
 const items = Array.from({ length: 80 }, (_, i) => `Item ${i + 1}`);
