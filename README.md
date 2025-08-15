@@ -26,6 +26,7 @@ function useVirtuoso<T>(
 
 - items: your data set to render. This parameter can be an array of any type
 - batchLength: optional parameter for how many items to reveal per batch
+- visible: rendered elements from the data set passed to 'items'
 - loadMore: function that when called in the event you've scrolled to the bound set in 'increaseViewPortBy' 
 schedules the next batch(won't overlap schedules)
 - fullyLoaded: once this value is true, your full data set has been rendered
