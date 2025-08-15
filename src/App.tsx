@@ -7,7 +7,9 @@ function App() {
     <section style={{ height: '1000px', width: '100%' }}>
       <h1>Virtuoso endless scroll</h1>
       <h2>custom useHook implementation</h2>
-      <div style={{ height: '500px', width: '400px', border: '1px', borderStyle: 'solid', margin: 'auto' }}>
+      <div
+        style={{ height: '500px', width: '400px', border: '1px', borderStyle: 'solid', margin: 'auto' }}
+      >
         <EndlessScroll />
       </div>
       <p className="prompt">

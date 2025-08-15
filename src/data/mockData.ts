@@ -1,8 +1,4 @@
-export interface MockData {
-    id: number,
-    title: string,
-    description: string
-}
+import type { MockData } from "../vite-env";
 
 
 export const mockItems = Array.from({ length: 80 }, (_, i): MockData => ({

@@ -1,69 +1,142 @@
-# React + TypeScript + Vite
+# Custom useVirtuoso Hook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## What: tiny react hook to batch render long lists, for smooth endless scroll
 
-Currently, two official plugins are available:
+## Purpose 
+- Reduces DOM node consumtion, lowering memory usage and render work for the browser (only a slice is appended to the rendered list at any time)
+- Great for learning virtualized rendering concepts(batching, preventing overlap of scheduling, cleanup)
+- Smoother UX(particularly on lower-end devices) by avoiding costly paint of entire large lists on every render
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## API 
 
-## Expanding the ESLint configuration
+```
+function useVirtuoso<T>(
+    items: T[], 
+    batchLength? // default 6
+    ) -> { 
+        visible: T[], 
+        loadMore: () => void, 
+        fullyLoaded: boolean 
+        }
+```
+>[!NOTE] 
+>With react-virtuoso, increaseViewportBy controls overscan - the extra pixels rendered above/below the viewport. 
+>It does not trigger loading itself; endReached triggers loadMore.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- items: your data set to render. This parameter can be an array of any type
+- batchLength: optional parameter for how many items to reveal per batch
+- loadMore: function that when called in the event you've scrolled to the bound set in 'increaseViewPortBy' 
+schedules the next batch(won't overlap schedules)
+- fullyLoaded: once this value is true, your full data set has been rendered
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Quick Start (with react-virtuoso) - Primary usage
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+#### In the terminal
+- cd useVirtuoso
+- install react-virtuoso: npm i react-virtuoso
+
+#### Code for endless scroller
+```
+import { Virtuoso, type FooterProps } from "react-virtuoso";
+import { useVirtuoso } from "./hooks/useVirtuoso";
+
+type Item = { id: number; title: string; description: string };
+type Ctx  = { fullyLoaded: boolean };
+
+function Loader({ context }: FooterProps<Ctx>) {
+  return context?.fullyLoaded ? null : <div className="loader" />;
+}
+
+export default function EndlessScroll({ items }: { items: Item[] }) {
+  const { visible, loadMore, fullyLoaded } = useVirtuoso(items, 10);
+
+  return (
+    <Virtuoso<Item, Ctx>
+      style={{ height: 500 }}
+      data={visible}
+      endReached={loadMore}
+      computeItemKey={(i, it) => it.id}
+      increaseViewportBy={ 120 }
+      components={{ Footer: Loader }}
+      context={{ fullyLoaded }}
+      itemContent={(index, item) => (
+        <div className="card">
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </div>
+      )}
+    />
+  );
+}
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Basic Usage (no third party library)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### useVirtuoso is library-agnostic. It just returns the visible items rendered, a loadMore trigger, and a fullyLoaded flag. You can wire it to any scroll trigger.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+#### Example B - Simple scroll trigger
 ```
+const items = Array.from({ length: 80 }, (_, i) => `Item ${i + 1}`);
+
+export default function Demo() {
+  const { visible, loadMore, fullyLoaded } = useVirtuoso(items, 10);
+
+  return (
+    <div
+      style={{ height: 420, overflow: "auto", border: "1px solid #444", padding: 8 }}
+      onScroll={(e) => {
+        const el = e.currentTarget;
+        const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 40;
+        if (nearBottom) loadMore();
+      }}
+    >
+      {visible.map((t, i) => (
+        <div key={i} className="card">{t}</div>
+      ))}
+      {!fullyLoaded && <div className="loader" />}
+    </div>
+  );
+}
+
+```
+
+#### Example C - IntersectionObserver (no scroll calculating needed)
+
+```
+import { useRef, useEffect } from "react";
+
+const items = Array.from({ length: 80 }, (_, i) => `Item ${i + 1}`);
+
+export function DemoObserver() {
+  const { visible, loadMore, fullyLoaded } = useVirtuoso(items, 10);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const boundaryRef  = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const boundary = boundaryRef.current;
+    const root = containerRef.current;
+
+    if (!root || !boundary) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => entry.isIntersecting && loadMore(),
+      { root, rootMargin: "120px" } // load more items a bit before the bottom
+    );
+    observer.observe(boundary);
+    return () => observer.disconnect();
+  }, [loadMore]);
+
+  return (
+    <div ref={containerRef} style={{ height: 420, overflow: "auto" }}>
+      {visible.map((t, i) => <div key={i} className="card">{t}</div>)}
+      {!fullyLoaded && <div ref={boundaryRef} style={{ height: 1 }} />}
+    </div>
+  );
+}
+
+```
+
+
+

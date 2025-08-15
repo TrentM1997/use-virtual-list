@@ -4,6 +4,7 @@ import { mockItems } from "../data/mockData";
 import Loader from "./Loading";
 import '../App.css';
 import Card from '../components/Card';
+import type { Ctx, MockData } from "../vite-env";
 
 
 export default function EndlessScroll() {
@@ -13,11 +14,12 @@ export default function EndlessScroll() {
 
 
     return (
-        <Virtuoso
+        <Virtuoso<MockData, Ctx>
             style={virutosoStyles}
             data={visible}
             endReached={loadMore}
             increaseViewportBy={50}
+            computeItemKey={(index, item) => item.id}
             context={fullyLoaded}
             components={{ Footer: Loader }}
             itemContent={(index, item) => (
