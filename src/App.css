@@ -33,8 +33,28 @@
   }
 }
 
+.cycle{
+  border-radius: '16px';
+  color: '#FFFFFF';
+  margin: 'auto';
+  width: '100px';
+  height: '30px';
+  padding: '8px';
+}
+
+.render {
+  display: flex;
+  flex-direction: column;
+  gap: 50;
+  justify-content: between;
+}
+
 .card {
-  padding: 1.5em;
+  padding: 1em;
+  border: 1;
+  border-style: solid;
+  height: '120px';
+  width: 'auto'
 }
 
 .loader {

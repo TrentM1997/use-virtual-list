@@ -9,5 +9,11 @@ export interface MockData {
 export type Ctx = boolean;
 
 interface Loader {
-    context: boolean
+    context?: boolean
+}
+
+export interface CycleScroller {
+    setIndex: React<React.SetStateAction<number>>,
+    scrollers: string[],
+    index: number
 }

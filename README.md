@@ -83,20 +83,36 @@ export default function EndlessScroll({ items }: { items: Item[] }) {
 ```
 // React + TypeScript/TSX
 
+import { useEffect } from 'react';
 
 const items = Array.from({ length: 80 }, (_, i) => `Item ${i + 1}`);
 
 export default function Demo() {
   const { visible, loadMore, fullyLoaded } = useVirtuoso(items, 10);
+   const boundaryRef = useRef<boolean | null>(null);
+
+
+  const handleScroll: React.UIEventHandler<HTMLDivElement> = (
+    e: React.UIEvent<HTMLDivElement>
+    ): void => {
+    if (boundaryRef.current) return;
+        const el = e.currentTarget;
+        const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 40;
+        if (nearBottom) {
+          boundaryRef.current = true;
+          loadMore();
+    };
+  };
+
+   useEffect(() => {
+
+    boundaryRef.current = false;
+  }, [visible.length]);
 
   return (
     <div
       style={{ height: 420, overflow: "auto", border: "1px solid #444", padding: 8 }}
-      onScroll={(e) => {
-        const el = e.currentTarget;
-        const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 40;
-        if (nearBottom) loadMore();
-      }}
+      onScroll={(e) => handleScroll(e)}
     >
       {visible.map((t, i) => (
         <div key={i} className="card">{t}</div>

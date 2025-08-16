@@ -2,7 +2,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 
 type LoadMore = () => void;
 
-interface VirtuosoHook<T> {
+export interface VirtuosoHook<T> {
     // True if all elements in the 'items' array have been rendered
     fullyLoaded: boolean,
     // The slice of the 'items' array that should render 
