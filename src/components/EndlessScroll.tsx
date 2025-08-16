@@ -19,7 +19,7 @@ export default function EndlessScroll() {
             data={visible}
             endReached={loadMore}
             increaseViewportBy={50}
-            computeItemKey={(index, item) => item.id}
+            computeItemKey={(_, item) => item.id}
             context={fullyLoaded}
             components={{ Footer: Loader }}
             itemContent={(index, item) => (
