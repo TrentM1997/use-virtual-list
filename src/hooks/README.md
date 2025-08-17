@@ -1,9 +1,9 @@
 # The useVirtualList hook
 
 >[!NOTE] 
-> The useVirtualList hook is library agnostic, and doesn't require a third-party library like react-virtuoso to work
+> The useVirtualList hook is library agnostic, and doesn't require react-virtuoso to work
 > It's simply a small algorithm + state machine for growing a visible window over time with safe scheduling 
-> It is NOT: a full windowing/virtualizer that unmounts off-screen rows or measures row heights
+> Not a full virtualizer: it does not unmount off-screen rows or measure row heights.
 
 ## API 
 
@@ -22,6 +22,15 @@
     - fullyLoaded: boolean - flag that is true when visible.length === items.length
 
 
+## How to trigger loadMore for next batch
+
+- Scroll end on container (for example, endReached on <Virtuoso> component)
+
+- Intersection observer on sentinel element (<div> with 'ref={boundaryRef}' in our example)
+
+- onScroll event handler for simple scroll event trigger (event handler example in SimpleScroller.tsx file in /src/components/scrollers directory)
+
+
 ## Behavior details
 
 - Initial window starts at a small size (defaults to first 8 elements of the provided array).
@@ -30,7 +39,7 @@
 
 - Scheduling delay (you currently use ~400ms) smooths bursty scroll events; it’s not tied to animation frames.
 
-- If items changes, you’ll likely want to reset the internal timer/flags.
+- If items change, you’ll likely want to reset the internal timer/flags.
 
 
 ## When to use without a virtualizer
