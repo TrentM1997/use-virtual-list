@@ -54,6 +54,7 @@ pair this with a virtualizer library like react-virtuoso.
 - React 18 Strict mode (dev-only)
 
 >[!NOTE] 
+> #### React 18 Strict mode (dev-only)
 > When developing with <StrictMode> enabled, React mounts, unmounts, and then mounts your components again to 
 > detect unsafe side-effects. That means initial renders (thus any timers you set) can run twice. This behavior is dev-only
 >
