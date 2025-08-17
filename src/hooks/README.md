@@ -1,6 +1,7 @@
 # The useVirtualList hook
 
->[!NOTE] The useVirtualList hook is library agnostic, and doesn't require a third-party library like react-virtuoso to work
+>[!NOTE] 
+> The useVirtualList hook is library agnostic, and doesn't require a third-party library like react-virtuoso to work
 > It's simply a small algorithm + state machine for growing a visible window over time with safe scheduling 
 > It is NOT: a full windowing/virtualizer that unmounts off-screen rows or measures row heights
 
@@ -52,7 +53,8 @@ pair this with a virtualizer library like react-virtuoso.
 
 - React 18 Strict mode (dev-only)
 
->[!NOTE] When developing with <StrictMode> enabled, React mounts, unmounts, and then mounts your components again to 
+>[!NOTE] 
+> When developing with <StrictMode> enabled, React mounts, unmounts, and then mounts your components again to 
 > detect unsafe side-effects. That means initial renders (thus any timers you set) can run twice. This behavior is dev-only
 >
 > What you may notice in dev: 
