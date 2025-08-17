@@ -54,9 +54,21 @@ function Loader({ context }: FooterProps<Ctx>) {
 export default function EndlessScroll({ items }: { items: Item[] }) {
   const { visible, loadMore, fullyLoaded } = useVirtuoso(items, 10);
 
+    //******* CSS properties for <Virtuoso/> component ********
+   const virutosoStyles: React.CSSProperties = {
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+    };
+
+    //******* CSS properties for <Virtuoso/> component ********
+
   return (
     <Virtuoso<Item, Ctx>
-      style={{ height: 500 }}
+      style={virtuosoStyles}
       data={visible}
       endReached={loadMore}
       computeItemKey={(_, item) => item.id}
