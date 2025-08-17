@@ -16,6 +16,7 @@ export default function VirtuosoScroll() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        margin: 'auto'
     };
     //stored these in a variable to maintain focus on the Virtuoso component's properties
 
@@ -30,7 +31,9 @@ export default function VirtuosoScroll() {
             context={fullyLoaded}
             components={{ Footer: Loader }}
             itemContent={(index, item) => (
-                <Card item={item} index={index} />
+                <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '8px' }}>
+                    <Card item={item} index={index} />
+                </div>
             )}
         />
     )

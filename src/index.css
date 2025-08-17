@@ -31,9 +31,9 @@ body {
 }
 
 h1 {
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: 100;
-  line-height: 1.1;
+  line-height: 1;
 }
 
 h2 {
@@ -56,10 +56,7 @@ button {
 button:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+
 
 .container {
   width: '500px';

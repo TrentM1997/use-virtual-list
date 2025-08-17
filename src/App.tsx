@@ -5,8 +5,8 @@ function App() {
 
 
   return (
-    <section style={{ height: '1000px', width: '100%' }}>
-      <h1>Virtualized Rendering of large lists</h1>
+    <section style={{ height: '100%', width: '100%' }}>
+      <h1>Custom hook for virtualized rendering</h1>
 
       <RenderScrollers />
 

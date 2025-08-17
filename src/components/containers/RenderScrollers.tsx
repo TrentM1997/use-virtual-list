@@ -7,7 +7,7 @@ import '../../App.css';
 export default function RenderScrollers() {
     const [index, setIndex] = useState<number>(0);
     const scrollers: string[] = [
-        "Virtuoso",
+        "React-Virtuoso",
         "Simple",
         "IntersectionObserver"
     ];

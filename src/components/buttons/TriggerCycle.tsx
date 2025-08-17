@@ -17,7 +17,7 @@ export default function TriggerCycle({ setIndex, scrollers, index }: CycleButton
                 onClick={handleClick}
                 aria-label="cycle-scroller button"
                 type="button">
-                Show {`${scrollers[((index + 1) % scrollers.length)]}`} scroller
+                Show Next: {`${scrollers[((index + 1) % scrollers.length)]}`}
             </button>
 
         </div>
