@@ -51,7 +51,6 @@ pair this with a virtualizer library like react-virtuoso.
 - Why doesn’t the CSS property 'gap' work on the react-virtuoso component <Virtuoso/>? 
    - Virtualizers often absolutely-position items; add spacing(margin/padding) on the item wrapper instead.
 
-- React 18 Strict mode (dev-only)
 
 >[!NOTE] 
 > #### React 18 Strict mode (dev-only)
