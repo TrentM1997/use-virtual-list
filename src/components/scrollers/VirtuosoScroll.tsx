@@ -9,7 +9,14 @@ import '../../App.css';
 
 export default function VirtuosoScroll() {
     const { loadMore, visible, fullyLoaded } = useVirtuoso(mockItems, 6);
-    const virutosoStyles: React.CSSProperties = { height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'end', margin: 'auto' }
+    const virutosoStyles: React.CSSProperties = {
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+    };
     //stored these in a variable to maintain focus on the Virtuoso component's properties
 
 

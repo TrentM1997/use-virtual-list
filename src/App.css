@@ -36,10 +36,10 @@
 .cycle{
   border-radius: '16px';
   color: '#FFFFFF';
-  margin: 'auto';
-  width: '100px';
+  width: '80px';
   height: '30px';
   padding: '8px';
+  border: 1;
 }
 
 .render {
@@ -52,9 +52,9 @@
 .card {
   padding: 1em;
   border: 1;
-  border-style: solid;
-  height: '120px';
-  width: 'auto'
+  border-style: dashed;
+  height: '100px';
+  width: 'auto';
 }
 
 .loader {

@@ -27,7 +27,7 @@ export default function SimpleScroll() {
 
   return (
     <div
-      style={{ height: '100%', width: '100%', overflowY: 'scroll', scrollbarGutter: 'stable', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', margin: 'auto', overflowX: 'hidden' }}
+      style={{ height: '100%', width: '100%', overflowY: 'scroll', scrollbarGutter: 'stable', display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center', justifyContent: 'flex-start', margin: 'auto', overflowX: 'hidden' }}
       onScroll={(e) => handleScroll(e)}
     >
       {Array.isArray(visible) && visible.map((item, index) => (
