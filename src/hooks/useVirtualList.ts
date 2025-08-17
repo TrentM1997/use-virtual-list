@@ -2,7 +2,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 
 type LoadMore = () => void;
 
-export interface VirtuosoHook<T> {
+export interface VirtualListHook<T> {
     // True if all elements in the 'items' array have been rendered
     fullyLoaded: boolean,
     // The slice of the 'items' array that should render 
@@ -18,7 +18,7 @@ export interface VirtuosoHook<T> {
     of the provided array 
 */
 
-export function useVirtualList<T>(items: T[], batchLength?: number): VirtuosoHook<T> {
+export function useVirtualList<T>(items: T[], batchLength?: number): VirtualListHook<T> {
     const [rendered, setRendered] = useState<number>(8);
     const [fullyLoaded, setFullyLoaded] = useState<boolean>(false);
 
