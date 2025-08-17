@@ -12,7 +12,8 @@
 ```
 function useVirtualList<T>(
     items: T[], 
-    batchLength? // default 6
+    initialCount?: number // default 8
+    batchLength?: number // default 6
     ) -> { 
         visible: T[], 
         loadMore: () => void, 
@@ -23,9 +24,13 @@ function useVirtualList<T>(
 >With react-virtuoso, increaseViewportBy controls overscan - the extra pixels rendered above/below the viewport. 
 >It does not trigger loading itself; endReached triggers loadMore.
 
+### Parameters
 
 - items: your data set to render. This parameter can be an array of any type
+- initialCount: how many array elements from 'items' to display on initial render 
 - batchLength: optional parameter for how many items to reveal per batch
+
+### Returns
 - visible: rendered elements from the data set passed to 'items'
 - loadMore: function that when called in the event you've scrolled to the bound set in 'increaseViewPortBy' 
 schedules the next batch(won't overlap schedules)

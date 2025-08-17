@@ -18,8 +18,8 @@ export interface VirtualListHook<T> {
     of the provided array 
 */
 
-export function useVirtualList<T>(items: T[], batchLength?: number): VirtualListHook<T> {
-    const [rendered, setRendered] = useState<number>(8);
+export function useVirtualList<T>(items: T[], initialLength?: number, batchLength?: number): VirtualListHook<T> {
+    const [rendered, setRendered] = useState<number>(initialLength ?? 8);
     const [fullyLoaded, setFullyLoaded] = useState<boolean>(false);
 
     //we'll use these to prevent multiple calls of setTimeout before the previous call has finished running

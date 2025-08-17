@@ -9,10 +9,12 @@
  - Params
     - items: T[] - your full dataset to be renderd
 
-    - batchLength?: number - how many items to add per batch upon each trigger on scroll
+    - initialCount?: number - how many array elements from 'items' to display on initial render (defaults to 8)
+
+    - batchLength?: number - how many items to add per batch upon each trigger on scroll(defaults to 6)
 
 - Returns
-    - visible: T[] - slice of the array to render
+    - visible: T[] - slice of the array to render(defaults to 8 on initial render)
 
     - loadMore(): void - useCallBack hook that gaurds against duplicate triggers and flags when the full dataset has been rendered
 

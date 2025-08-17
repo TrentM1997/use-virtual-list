@@ -5,7 +5,7 @@ import Card from '../scrollElements/Card';
 import Loader from "../scrollElements/Loading";
 
 export default function IntersectionScroller() {
-    const { visible, loadMore, fullyLoaded } = useVirtualList(mockItems, 10);
+    const { visible, loadMore, fullyLoaded } = useVirtualList(mockItems, 16, 10);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const boundaryRef = useRef<HTMLDivElement | null>(null);
 

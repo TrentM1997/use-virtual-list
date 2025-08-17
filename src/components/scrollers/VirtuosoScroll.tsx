@@ -8,7 +8,8 @@ import '../../App.css';
 
 
 export default function VirtuosoScroll() {
-    const { loadMore, visible, fullyLoaded } = useVirtualList(mockItems, 6);
+    const { loadMore, visible, fullyLoaded } = useVirtualList(mockItems);
+
     const virutosoStyles: React.CSSProperties = {
         height: '100%',
         width: '100%',
