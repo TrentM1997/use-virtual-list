@@ -32,14 +32,37 @@
 - If items changes, you’ll likely want to reset the internal timer/flags.
 
 
-## When to use without a virtualizer library?
+## When to use without a virtualizer
 
 - Your items are uniform in height and don't need strict viewport management
 
 - You want infinite scroll/endless scroll behavior without pulling in a heavy virtualizer
 
 
-## When not to use without a virtualizer library?
+## When to use with a virtualizer
 
 - If you need true virtualization (unmount off-screen items, rendering list items of variable heights etc.). For those cases,
 pair this with a virtualizer library like react-virtuoso.
+
+
+## Gotchas
+
+- Why doesn’t the CSS property 'gap' work on the react-virtuoso component <Virtuoso/>? 
+   - Virtualizers often absolutely-position items; add spacing(margin/padding) on the item wrapper instead.
+
+- React 18 Strict mode (dev-only)
+
+>[!NOTE] When developing with <StrictMode> enabled, React mounts, unmounts, and then mounts your components again to 
+> detect unsafe side-effects. That means initial renders (thus any timers you set) can run twice. This behavior is dev-only
+>
+> What you may notice in dev: 
+> The trigger (loadMore()) fires twice, or one of your logs is duplicated in the console
+> A timer schedules, immediately is cleaned up, and then schedules again
+> The visible window does nothing on first scroll attempt (due to first mount being discarded)
+>
+> Why this is no cause for alarm:
+> useVirtualList uses a flag (pendingTimeoutRef to be exact) and cleanup to ignore overlapping scheduling of triggers
+> and cleans up timers on unmount. Thus duplicate batches will not occur. 
+
+
+
