@@ -57,7 +57,7 @@ function Loader({ context }: FooterProps<Ctx>) {
 }
 
 export default function EndlessScroll({ items }: { items: Item[] }) {
-  const { visible, loadMore, fullyLoaded } = useVirtualList(items, 10);
+  const { visible, loadMore, fullyLoaded } = useVirtualList(items, 10, 8);
 
     //******* CSS properties for <Virtuoso/> component ********
    const virutosoStyles: React.CSSProperties = {
