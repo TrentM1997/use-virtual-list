@@ -1,11 +1,11 @@
-import { useVirtuoso } from "../../hooks/useVirtuoso";
+import { useVirtualList } from "../../hooks/useVirtualList";
 import { mockItems } from "../../data/mockData";
 import { useEffect, useRef } from "react";
 import Card from '../scrollElements/Card';
 import Loading from '../scrollElements/Loading';
 
 export default function SimpleScroll() {
-  const { visible, loadMore, fullyLoaded } = useVirtuoso(mockItems, 10);
+  const { visible, loadMore, fullyLoaded } = useVirtualList(mockItems, 10);
   const boundaryRef = useRef<boolean | null>(null);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-# Custom useVirtuoso Hook
+# Custom useVirtualList Hook
 
 ## What: tiny react hook to batch render long lists, for smooth endless scroll
 
@@ -10,7 +10,7 @@
 ## API 
 
 ```
-function useVirtuoso<T>(
+function useVirtualList<T>(
     items: T[], 
     batchLength? // default 6
     ) -> { 
@@ -42,7 +42,7 @@ schedules the next batch(won't overlap schedules)
 // React + TypeScript/TSX
 
 import { Virtuoso, type FooterProps } from "react-virtuoso";
-import { useVirtuoso } from "./hooks/useVirtuoso";
+import { useVirtualList } from "../../hooks/useVirtualList";
 
 type Item = { id: number; title: string; description: string };
 type Ctx  = { fullyLoaded: boolean };
@@ -52,7 +52,7 @@ function Loader({ context }: FooterProps<Ctx>) {
 }
 
 export default function EndlessScroll({ items }: { items: Item[] }) {
-  const { visible, loadMore, fullyLoaded } = useVirtuoso(items, 10);
+  const { visible, loadMore, fullyLoaded } = useVirtualList(items, 10);
 
     //******* CSS properties for <Virtuoso/> component ********
    const virutosoStyles: React.CSSProperties = {
@@ -89,18 +89,19 @@ export default function EndlessScroll({ items }: { items: Item[] }) {
 
 ## Basic Usage (no third-party library)
 
-### useVirtuoso is library-agnostic. It just returns the visible items rendered, a loadMore trigger, and a fullyLoaded flag. You can wire it to any scroll trigger.
+### useVirtualList is library-agnostic. It just returns the visible items rendered, a loadMore trigger, and a fullyLoaded flag. You can wire it to any scroll trigger.
 
 #### Example B - Simple scroll trigger
 ```
 // React + TypeScript/TSX
 
 import { useEffect } from 'react';
+import { useVirtualList } from "../../hooks/useVirtualList";
 
 const items = Array.from({ length: 80 }, (_, i) => `Item ${i + 1}`);
 
 export default function Demo() {
-  const { visible, loadMore, fullyLoaded } = useVirtuoso(items, 10);
+  const { visible, loadMore, fullyLoaded } = useVirtualList(items, 10);
    const boundaryRef = useRef<boolean | null>(null);
 
 
@@ -142,10 +143,10 @@ export default function Demo() {
 // React + TypeScript/TSX
 
 import { useRef, useEffect } from "react";
-import { useVirtuoso } from 'react';
+import { useVirtualList } from "../../hooks/useVirtualList";
 
 export default function IntersectionScroller() {
-    const { visible, loadMore, fullyLoaded } = useVirtuoso(mockItems, 10);
+    const { visible, loadMore, fullyLoaded } = useVirtualList(mockItems, 10);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const boundaryRef = useRef<HTMLDivElement | null>(null);
 

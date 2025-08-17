@@ -1,11 +1,11 @@
 import { useRef, useEffect } from "react";
-import { useVirtuoso } from "../../hooks/useVirtuoso";
+import { useVirtualList } from "../../hooks/useVirtualList";
 import { mockItems } from "../../data/mockData";
 import Card from '../scrollElements/Card';
 import Loader from "../scrollElements/Loading";
 
 export default function IntersectionScroller() {
-    const { visible, loadMore, fullyLoaded } = useVirtuoso(mockItems, 10);
+    const { visible, loadMore, fullyLoaded } = useVirtualList(mockItems, 10);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const boundaryRef = useRef<HTMLDivElement | null>(null);
 

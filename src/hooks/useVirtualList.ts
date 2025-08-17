@@ -18,7 +18,7 @@ export interface VirtuosoHook<T> {
     of the provided array 
 */
 
-export function useVirtuoso<T>(items: T[], batchLength?: number): VirtuosoHook<T> {
+export function useVirtualList<T>(items: T[], batchLength?: number): VirtuosoHook<T> {
     const [rendered, setRendered] = useState<number>(8);
     const [fullyLoaded, setFullyLoaded] = useState<boolean>(false);
 

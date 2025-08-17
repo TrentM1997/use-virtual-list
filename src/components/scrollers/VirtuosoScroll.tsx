@@ -1,4 +1,4 @@
-import { useVirtuoso } from "../../hooks/useVirtuoso";
+import { useVirtualList } from "../../hooks/useVirtualList";
 import { Virtuoso } from "react-virtuoso";
 import { mockItems } from "../../data/mockData";
 import Loader from "../scrollElements/Loading";
@@ -8,7 +8,7 @@ import '../../App.css';
 
 
 export default function VirtuosoScroll() {
-    const { loadMore, visible, fullyLoaded } = useVirtuoso(mockItems, 6);
+    const { loadMore, visible, fullyLoaded } = useVirtualList(mockItems, 6);
     const virutosoStyles: React.CSSProperties = {
         height: '100%',
         width: '100%',
