@@ -130,35 +130,52 @@ export default function Demo() {
 // React + TypeScript/TSX
 
 import { useRef, useEffect } from "react";
+import { useVirtuoso } from 'react';
 
-const items = Array.from({ length: 80 }, (_, i) => `Item ${i + 1}`);
+export default function IntersectionScroller() {
+    const { visible, loadMore, fullyLoaded } = useVirtuoso(mockItems, 10);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const boundaryRef = useRef<HTMLDivElement | null>(null);
 
-export function DemoObserver() {
-  const { visible, loadMore, fullyLoaded } = useVirtuoso(items, 10);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const boundaryRef  = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        console.log(visible)
+        if (fullyLoaded) return;
 
-  useEffect(() => {
-    if(fullyLoaded) return; // early return when data set is fully rendered
+        const boundary = boundaryRef.current;
+        const root = containerRef.current;
 
-    const boundary = boundaryRef.current;
-    const root = containerRef.current;
+        if (!root || !boundary) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => entry.isIntersecting && loadMore(),
+            { root, rootMargin: "100px" }
+        );
+        observer.observe(boundary);
+        return () => observer.disconnect();
+    }, [loadMore, fullyLoaded]);
 
-    if (!root || !boundary) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => entry.isIntersecting && loadMore(),
-      { root, rootMargin: "120px" } // load more items a bit before the bottom
+    return (
+        <div ref={containerRef}
+            style={{ height: '100%', gap: '8px', width: '100%', overflowY: 'scroll', scrollbarGutter: 'stable', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', margin: 'auto', overflowX: 'hidden' }}
+        >
+            {visible.map((item, index) => (
+                <div 
+                className="card"
+                item={item} 
+                index={index}>
+                 <h1 
+                 style={{ fontSize: '28px' }}
+                 >{item.title}
+                 </h1>
+            <p 
+            className='card_description'
+            >{item.description}
+            </p>
+            </div>
+            ))}
+            {!fullyLoaded && <div ref={boundaryRef} style={{ height: 1, marginBottom: '10px' }} />}
+            {!fullyLoaded && <div className='loader' />}
+        </div>
     );
-    observer.observe(boundary);
-    return () => observer.disconnect();
-  }, [loadMore, fullyLoaded]);
-
-  return (
-    <div ref={containerRef} style={{ height: 420, overflow: "auto" }}>
-      {visible.map((t, i) => <div key={i} className="card">{t}</div>)}
-      {!fullyLoaded && <div ref={boundaryRef} style={{ height: 1 }} />}
-    </div>
-  );
 }
 
 ```
