@@ -12,7 +12,7 @@ export interface VirtualListHook<T> {
 };
 
 /* 
-    useVirtuoso incrementally renders list items in fixed length batches
+    useVirtualizedList incrementally renders list items in fixed length batches
     - prevents duplicate render scheduling during ongoing calls to render the next batch
     - safegaurds against calls to render more list items, when another call would exhuast the length
     of the provided array 
